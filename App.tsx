@@ -1,6 +1,5 @@
 import React from "react";
-import AppLoading from "expo-app-loading";
-import theme from "src/global/styles/theme";
+import theme from "@global/styles/theme";
 
 import {
   useFonts,
@@ -11,6 +10,7 @@ import {
 
 import { ThemeProvider } from "styled-components/native";
 import { DashBoard } from "@screens/Dashboard";
+import { Loading } from "@components/Loading";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -20,7 +20,7 @@ export default function App() {
   });
   return (
     <ThemeProvider theme={theme}>
-      {!fontsLoaded ? <AppLoading /> : <DashBoard />}
+      {!fontsLoaded ? <Loading /> : <DashBoard />}
     </ThemeProvider>
   );
 }
