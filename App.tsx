@@ -9,8 +9,9 @@ import {
 } from "@expo-google-fonts/poppins";
 
 import { ThemeProvider } from "styled-components/native";
-import { DashBoard } from "@screens/Dashboard";
 import { Loading } from "@components/Loading";
+import { NavigationContainer } from "@react-navigation/native";
+import { AppRoutes } from "@routes/app.routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -20,7 +21,9 @@ export default function App() {
   });
   return (
     <ThemeProvider theme={theme}>
-      {!fontsLoaded ? <Loading /> : <DashBoard />}
+      <NavigationContainer>
+        {!fontsLoaded ? <Loading /> : <AppRoutes />}
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
