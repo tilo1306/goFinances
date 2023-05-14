@@ -1,14 +1,14 @@
 import React from "react";
-import { TouchableOpacityProps } from "react-native";
 import { Container, Category, Icon } from "./styles";
 
-type Props = TouchableOpacityProps & {
-  title: string;
-};
+interface IProps {
+  title: String;
+  onPress: () => void;
+}
 
-export function CategorySelectButton({ title, ...rest }: Props) {
+export function CategorySelectButton({ title, onPress }: IProps) {
   return (
-    <Container {...rest}>
+    <Container onPress={onPress}>
       <Category>{title}</Category>
 
       <Icon name="chevron-down" />
