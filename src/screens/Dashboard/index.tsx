@@ -10,6 +10,7 @@ import {
   Container,
   Header,
   Icon,
+  LogoutButton,
   Photo,
   User,
   UserGreeting,
@@ -69,7 +70,9 @@ export function DashBoard() {
               <Username>Douglas</Username>
             </User>
           </UserInfo>
-          <Icon name="power" />
+          <LogoutButton>
+            <Icon name="power" />
+          </LogoutButton>
         </UserWrapper>
       </Header>
       <HighlightCards>
