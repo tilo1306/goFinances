@@ -3,6 +3,8 @@ import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from "react-native";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Control, FieldValues, useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
+import uuid from "uuid-js";
 
 import { Button } from "@components/Form/Button";
 import { TransactionTypeButton } from "@components/Form/TransactionTypeButton";
@@ -18,6 +20,8 @@ import {
 } from "./styles";
 import { CategorySelect } from "@screens/CategorySelect";
 import { InputForm } from "@components/Form/InputForm";
+import { createTransaction } from "@storage/transaction/createTransaction";
+import { ITransaction } from "src/type";
 
 interface FormData {
   name: string;
@@ -35,6 +39,8 @@ const schema = Yup.object().shape({
 export function Register() {
   const [transactionType, setTransactionType] = useState("");
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+
+  const { navigate } = useNavigation();
 
   const [category, setCategory] = useState({
     key: "category",
@@ -63,7 +69,7 @@ export function Register() {
     setCategoryModalOpen(false);
   }
 
-  function handleRegister(form: FormData) {
+  async function handleRegister(form: FormData) {
     if (!transactionType) {
       return Alert.alert("Selecione o tipo da transação");
     }
@@ -71,12 +77,21 @@ export function Register() {
     if (category.key === "category") {
       return Alert.alert("Selecione a categoria");
     }
-    const data = {
-      name: form.name,
+    const data: ITransaction = {
+      id: uuid.create().toString(),
+      title: form.name,
       amount: form.amount,
-      transactionType,
-      category: category.key,
+      type: transactionType === "up" ? "positive" : "negative",
+      category: { name: category.name, icon: category.key },
+      date: new Date().toISOString(),
     };
+    try {
+      await createTransaction(data);
+      navigate("Listagem");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Não foi possivel salvar");
+    }
   }
 
   return (
