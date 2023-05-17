@@ -1,6 +1,13 @@
-export interface ITransaction {
-  key: string;
+interface ICategory {
   name: string;
   icon: string;
-  color: string;
+}
+
+export interface ITransaction {
+  id: string;
+  type: "positive" | "negative";
+  title: string;
+  amount: string;
+  category: ICategory;
+  date: string;
 }
