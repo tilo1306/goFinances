@@ -1,5 +1,7 @@
 import React from "react";
 import theme from "@global/styles/theme";
+import "intl";
+import "intl/locale-data/jsonp/pt-BR";
 
 import {
   useFonts,
