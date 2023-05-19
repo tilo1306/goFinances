@@ -51,6 +51,7 @@ export function Register() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
@@ -87,6 +88,13 @@ export function Register() {
     };
     try {
       await createTransaction(data);
+      reset();
+      setTransactionType("");
+      setCategory({
+        key: "category",
+        name: "Categoria",
+        icon: "Icon",
+      });
       navigate("Listagem");
     } catch (error) {
       console.log(error);
