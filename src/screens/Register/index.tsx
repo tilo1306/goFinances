@@ -45,6 +45,7 @@ export function Register() {
   const [category, setCategory] = useState({
     key: "category",
     name: "Categoria",
+    icon: "Icon",
   });
 
   const {
@@ -57,7 +58,7 @@ export function Register() {
 
   const formControll = control as unknown as Control<FieldValues, any>;
 
-  function handleTransactionTypeSelect(type: "up" | "down") {
+  function handleTransactionTypeSelect(type: "positive" | "negative") {
     setTransactionType(type);
   }
 
@@ -81,9 +82,8 @@ export function Register() {
       id: uuid.create().toString(),
       title: form.name,
       amount: form.amount,
-      type: transactionType === "up" ? "positive" : "negative",
-      category: { name: category.name, icon: category.key },
-      date: new Date().toISOString(),
+      type: transactionType === "positive" ? "positive" : "negative",
+      category: { key: category.key, name: category.name, icon: category.icon },
     };
     try {
       await createTransaction(data);
@@ -119,21 +119,21 @@ export function Register() {
             />
             <TransactionTypes>
               <TransactionTypeButton
-                isActive={transactionType === "up"}
+                isActive={transactionType === "positive"}
                 type="up"
                 title="Income"
-                onPress={() => handleTransactionTypeSelect("up")}
+                onPress={() => handleTransactionTypeSelect("positive")}
               />
               <TransactionTypeButton
-                isActive={transactionType === "down"}
+                isActive={transactionType === "negative"}
                 type="down"
                 title="Outcome"
-                onPress={() => handleTransactionTypeSelect("down")}
+                onPress={() => handleTransactionTypeSelect("negative")}
               />
             </TransactionTypes>
             <CategorySelectButton
               title={category.name}
-              onPress={handleOpenSelectCategoryModal}
+              onPress={() => handleOpenSelectCategoryModal()}
             />
           </Fields>
 
