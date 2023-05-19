@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 
 import { HighlightCard } from "@components/HighlightCard";
-import {
-  TransactionCard,
-  ITransactionCardProps,
-} from "@components/TransactionCard";
+import { ITransaction } from "../../type";
+
+import { TransactionCard } from "@components/TransactionCard";
 
 import {
   Container,
@@ -22,38 +21,55 @@ import {
   TransactionList,
   Title,
 } from "./styles";
+import { transactionsGetAll } from "@storage/transaction/transactionsGetAll";
+import { Alert } from "react-native";
+import { Loading } from "@components/Loading";
+import { useFocusEffect } from "@react-navigation/native";
+import { calculate } from "../../helper";
 
-export interface DataListProps extends ITransactionCardProps {
-  id: string;
+interface HighlightProps {
+  amount: string;
+  lastTransaction: string;
+}
+
+interface HightlightData {
+  entries: HighlightProps;
+  expensives: HighlightProps;
+  total: HighlightProps;
 }
 
 export function DashBoard() {
-  const data: DataListProps[] = [
-    {
-      id: "1",
-      type: "positive",
-      title: "Desenvolvimento de site",
-      amount: "R$ 12.000,00",
-      category: { name: "Vendas", icon: "dollar-sign" },
-      date: "13/04/2020",
-    },
-    {
-      id: "2",
-      type: "negative",
-      title: "Hambuergueria Pizzy",
-      amount: "R$ 59,00",
-      category: { name: "Alimentação", icon: "coffee" },
-      date: "10/04/2020",
-    },
-    {
-      id: "3",
-      type: "negative",
-      title: "Aluguel do apartamento",
-      amount: "R$ 1.200,00",
-      category: { name: "Casa", icon: "shopping-bag" },
-      date: "10/04/2020",
-    },
-  ];
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  const [highlightData, setHighlightData] = useState<HightlightData>({
+    entries: { amount: "R$ 0", lastTransaction: "" },
+    expensives: { amount: "R$ 0", lastTransaction: "" },
+    total: { amount: "R$ 0", lastTransaction: "" },
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  async function fetchTransactions() {
+    try {
+      setIsLoading(true);
+      const data = await transactionsGetAll();
+
+      const valuesTransaction = calculate(data);
+
+      setIsLoading(false);
+
+      setHighlightData(valuesTransaction as HightlightData);
+
+      setTransactions(data);
+    } catch (error) {
+      Alert.alert("Transações", "Não foi possivel carregar as transações!");
+      console.log(error);
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchTransactions();
+    }, [])
+  );
 
   return (
     <Container>
@@ -79,30 +95,34 @@ export function DashBoard() {
         <HighlightCard
           type="up"
           title="Entradas"
-          amount="R$ 17.400,00"
-          lastTransaction="Última  entrada dia 13 de abril"
+          amount={highlightData.entries.amount}
+          lastTransaction={highlightData.entries.lastTransaction}
         />
         <HighlightCard
           type="down"
           title="Saída"
-          amount="R$ 1.259,00"
-          lastTransaction="Última  saída dia 03 de abril"
+          amount={highlightData.expensives.amount}
+          lastTransaction={highlightData.expensives.lastTransaction}
         />
         <HighlightCard
           type="total"
           title="Total"
-          amount="R$ 16.141,00"
-          lastTransaction="01 á 16 de abril"
+          amount={highlightData.total.amount}
+          lastTransaction={highlightData.total.lastTransaction}
         />
       </HighlightCards>
 
       <Transactions>
         <Title>Listagem</Title>
-        <TransactionList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <TransactionCard data={item} />}
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <TransactionList
+            data={transactions}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <TransactionCard data={item} />}
+          />
+        )}
       </Transactions>
     </Container>
   );
