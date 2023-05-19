@@ -18,6 +18,7 @@ import { Button } from "@components/Form/Button";
 interface Category {
   key: string;
   name: string;
+  icon: string;
 }
 
 interface IProps {
