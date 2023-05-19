@@ -10,6 +10,7 @@ import {
   CategoryName,
   Date,
 } from "./styles";
+import { ITransaction } from "src/type";
 
 interface ICategory {
   name: string;
@@ -25,7 +26,7 @@ export interface ITransactionCardProps {
 }
 
 interface IProps {
-  data: ITransactionCardProps;
+  data: ITransaction;
 }
 
 export function TransactionCard({ data }: IProps) {
