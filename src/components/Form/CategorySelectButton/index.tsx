@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Category, Icon } from "./styles";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 interface IProps {
   title: String;
@@ -8,10 +9,12 @@ interface IProps {
 
 export function CategorySelectButton({ title, onPress }: IProps) {
   return (
-    <Container onPress={onPress}>
-      <Category>{title}</Category>
+    <GestureHandlerRootView>
+      <Container onPress={onPress}>
+        <Category>{title}</Category>
 
-      <Icon name="chevron-down" />
-    </Container>
+        <Icon name="chevron-down" />
+      </Container>
+    </GestureHandlerRootView>
   );
 }

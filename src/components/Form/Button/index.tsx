@@ -1,5 +1,8 @@
 import React from "react";
-import { RectButtonProps } from "react-native-gesture-handler";
+import {
+  GestureHandlerRootView,
+  RectButtonProps,
+} from "react-native-gesture-handler";
 import { Container, Title } from "./styles";
 
 type Props = RectButtonProps & {
@@ -9,8 +12,10 @@ type Props = RectButtonProps & {
 
 export function Button({ title, onPress, ...rest }: Props) {
   return (
-    <Container onPress={onPress} {...rest}>
-      <Title>{title}</Title>
-    </Container>
+    <GestureHandlerRootView>
+      <Container onPress={onPress} {...rest}>
+        <Title>{title}</Title>
+      </Container>
+    </GestureHandlerRootView>
   );
 }
