@@ -7,7 +7,7 @@ import {
 import { BorderlessButton } from "react-native-gesture-handler";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { FlatList, FlatListProps } from "react-native";
-import { DataListProps } from ".";
+import { ITransaction } from "src/type";
 
 export const Container = styled.View`
   flex: 1;
@@ -96,9 +96,7 @@ export const Title = styled.Text`
 `;
 
 export const TransactionList = styled(
-  FlatList as new (
-    props: FlatListProps<DataListProps>
-  ) => FlatList<DataListProps>
+  FlatList as new (props: FlatListProps<ITransaction>) => FlatList<ITransaction>
 ).attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: { paddingBottom: getBottomSpace() },

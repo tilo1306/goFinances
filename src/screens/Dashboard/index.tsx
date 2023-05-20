@@ -26,6 +26,7 @@ import { Alert } from "react-native";
 import { Loading } from "@components/Loading";
 import { useFocusEffect } from "@react-navigation/native";
 import { calculate } from "../../helper";
+import { useAuth } from "src/hooks/auth";
 
 interface HighlightProps {
   amount: string;
@@ -40,12 +41,14 @@ interface HightlightData {
 
 export function DashBoard() {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [highlightData, setHighlightData] = useState<HightlightData>({
     entries: { amount: "R$ 0", lastTransaction: "" },
     expensives: { amount: "R$ 0", lastTransaction: "" },
     total: { amount: "R$ 0", lastTransaction: "" },
   });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { signOut, user } = useAuth();
 
   async function fetchTransactions() {
     try {
@@ -78,15 +81,15 @@ export function DashBoard() {
           <UserInfo>
             <Photo
               source={{
-                uri: "https://avatars.githubusercontent.com/u/49030804?v=4",
+                uri: user.photo,
               }}
             />
             <User>
               <UserGreeting>Olá,</UserGreeting>
-              <Username>Douglas</Username>
+              <Username>{user.name}</Username>
             </User>
           </UserInfo>
-          <LogoutButton>
+          <LogoutButton onPress={signOut}>
             <Icon name="power" />
           </LogoutButton>
         </UserWrapper>
