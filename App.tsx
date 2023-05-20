@@ -3,6 +3,8 @@ import theme from "@global/styles/theme";
 import "intl";
 import "intl/locale-data/jsonp/pt-BR";
 
+import { AuthProvider, useAuth } from "./src/hooks/auth";
+
 import {
   useFonts,
   Poppins_400Regular,
@@ -12,8 +14,8 @@ import {
 
 import { ThemeProvider } from "styled-components/native";
 import { Loading } from "@components/Loading";
-import { NavigationContainer } from "@react-navigation/native";
-import { AppRoutes } from "@routes/app.routes";
+import { Routes } from "./src/routes";
+import { StatusBar } from "react-native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,11 +23,14 @@ export default function App() {
     Poppins_500Medium,
     Poppins_700Bold,
   });
+
+  const { userStorageLoading } = useAuth();
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        {!fontsLoaded ? <Loading /> : <AppRoutes />}
-      </NavigationContainer>
+      <StatusBar barStyle="light-content" translucent />
+      <AuthProvider>
+        {!fontsLoaded && userStorageLoading ? <Loading /> : <Routes />}
+      </AuthProvider>
     </ThemeProvider>
   );
 }
