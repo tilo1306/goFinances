@@ -11,4 +11,5 @@ export interface ITransaction {
   amount: string;
   category: ICategory;
   date?: string;
+  userId: string;
 }
