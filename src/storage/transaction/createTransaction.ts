@@ -7,7 +7,7 @@ import { ITransaction } from "src/type";
 
 export async function createTransaction(data: ITransaction) {
   try {
-    const storeTransactions = await transactionsGetAll();
+    const storeTransactions = await transactionsGetAll(data.userId);
 
     const amount = Number(data.amount).toLocaleString("pt-br", {
       style: "currency",
@@ -26,6 +26,7 @@ export async function createTransaction(data: ITransaction) {
       type: data.type,
       category: data.category,
       date,
+      userId: data.userId,
     };
 
     const storage = JSON.stringify([...storeTransactions, newTransaction]);
