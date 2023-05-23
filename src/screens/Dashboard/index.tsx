@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useState } from "react";
 
 import { HighlightCard } from "@components/HighlightCard";
@@ -26,7 +27,7 @@ import { Alert } from "react-native";
 import { Loading } from "@components/Loading";
 import { useFocusEffect } from "@react-navigation/native";
 import { calculate } from "../../helper";
-import { useAuth } from "src/hooks/auth";
+import { useAuth } from "../../hooks/auth";
 
 interface HighlightProps {
   amount: string;
@@ -53,7 +54,7 @@ export function DashBoard() {
   async function fetchTransactions() {
     try {
       setIsLoading(true);
-      const data = await transactionsGetAll();
+      const data = await transactionsGetAll(user.id);
 
       const valuesTransaction = calculate(data);
 
@@ -74,6 +75,8 @@ export function DashBoard() {
     }, [])
   );
 
+  console.log(highlightData.entries.lastTransaction);
+
   return (
     <Container>
       <Header>
@@ -81,7 +84,7 @@ export function DashBoard() {
           <UserInfo>
             <Photo
               source={{
-                uri: user.photo,
+                uri: user.photo as string,
               }}
             />
             <User>
@@ -122,7 +125,7 @@ export function DashBoard() {
         ) : (
           <TransactionList
             data={transactions}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id as string}
             renderItem={({ item }) => <TransactionCard data={item} />}
           />
         )}

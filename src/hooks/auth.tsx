@@ -55,13 +55,15 @@ function AuthProvider({ children }: IAuthProviderProps) {
         );
         const userInfo = await response.json();
 
-        setUser({
+        const userLogging = {
           id: String(userInfo.id),
           email: userInfo.email!,
           name: userInfo.given_name!,
           photo: userInfo.picture!,
-        });
-        await userLogged(userInfo);
+        };
+
+        setUser(userLogging);
+        await userLogged(userLogging);
       }
     } catch (error) {
       throw error;
@@ -86,6 +88,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
           name,
           photo,
         };
+
         setUser(userInfo);
         await userLogged(userInfo);
       }

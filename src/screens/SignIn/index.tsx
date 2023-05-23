@@ -50,9 +50,16 @@ export function SignIn() {
       <Header>
         <TitleWrapper>
           <LogoSvg width={RFValue(120)} height={RFValue(68)} />
-          <Title>Controle suas finanças de forma muito simples</Title>
+          <Title>
+            Controle suas {"\n"}
+            finanças de forma {"\n"}
+            muito simples
+          </Title>
         </TitleWrapper>
-        <SignInTitle>Faça seu login com uma das contas abaixo</SignInTitle>
+        <SignInTitle>
+          Faça seu login com {"\n"}
+          uma das contas abaixo
+        </SignInTitle>
       </Header>
       <Footer>
         <FooterWrapper>

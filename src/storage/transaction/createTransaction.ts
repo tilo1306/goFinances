@@ -17,7 +17,9 @@ export async function createTransaction(data: ITransaction) {
       day: "2-digit",
       month: "2-digit",
       year: "2-digit",
-    }).format(new Date());
+    }).format(new Date(Date.now()));
+
+    console.log(date);
 
     const newTransaction: ITransaction = {
       id: data.id,

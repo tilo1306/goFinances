@@ -22,6 +22,7 @@ import { CategorySelect } from "@screens/CategorySelect";
 import { InputForm } from "@components/Form/InputForm";
 import { createTransaction } from "@storage/transaction/createTransaction";
 import { ITransaction } from "src/type";
+import { useAuth } from "../../hooks/auth";
 
 interface FormData {
   name: string;
@@ -41,6 +42,8 @@ export function Register() {
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
   const { navigate } = useNavigation();
+
+  const { user } = useAuth();
 
   const [category, setCategory] = useState({
     key: "category",
@@ -85,6 +88,7 @@ export function Register() {
       amount: form.amount,
       type: transactionType === "positive" ? "positive" : "negative",
       category: { key: category.key, name: category.name, icon: category.icon },
+      userId: user.id,
     };
     try {
       await createTransaction(data);
@@ -141,7 +145,7 @@ export function Register() {
             </TransactionTypes>
             <CategorySelectButton
               title={category.name}
-              onPress={() => handleOpenSelectCategoryModal()}
+              onPress={handleOpenSelectCategoryModal}
             />
           </Fields>
 

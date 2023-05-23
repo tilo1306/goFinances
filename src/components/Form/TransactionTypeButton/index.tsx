@@ -1,34 +1,29 @@
 import React from "react";
-import {
-  GestureHandlerRootView,
-  RectButtonProps,
-} from "react-native-gesture-handler";
 import { Container, Icon, Title, Button } from "./style";
 
 const icons = {
   up: "arrow-up-circle",
   down: "arrow-down-circle",
 };
-type Props = RectButtonProps & {
+type Props = {
   title: string;
   type: "up" | "down";
   isActive: boolean;
+  onPress: () => void;
 };
 
 export function TransactionTypeButton({
   isActive,
   title,
   type,
-  ...rest
+  onPress,
 }: Props) {
   return (
     <Container type={type} isActive={isActive}>
-      <GestureHandlerRootView>
-        <Button {...rest}>
-          <Icon type={type} name={icons[type]} />
-          <Title>{title}</Title>
-        </Button>
-      </GestureHandlerRootView>
+      <Button onPress={onPress}>
+        <Icon type={type} name={icons[type]} />
+        <Title>{title}</Title>
+      </Button>
     </Container>
   );
 }

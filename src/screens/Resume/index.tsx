@@ -28,6 +28,7 @@ import { useTheme } from "styled-components/native";
 import { addMonths, format, subMonths } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useFocusEffect } from "@react-navigation/native";
+import { useAuth } from "../../hooks/auth";
 
 interface ICategoryData {
   color: string;
@@ -45,6 +46,7 @@ export function Resume() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const theme = useTheme();
+  const { user } = useAuth();
 
   function handleDateChange(action: "next" | "prev") {
     if (action === "next") {
@@ -59,7 +61,7 @@ export function Resume() {
   async function fetchTransactions() {
     try {
       setIsLoading(true);
-      const data = await transactionsGetAll();
+      const data = await transactionsGetAll(user.id);
 
       const expensives = data.filter((transaction) => {
         const [day, month, year] = transaction.date
@@ -92,8 +94,6 @@ export function Resume() {
         );
       }, 0);
 
-      console.log(expensivesTotal);
-
       const totalByCategory: ICategoryData[] = [];
 
       categories.forEach((category) => {
@@ -118,9 +118,6 @@ export function Resume() {
             style: "currency",
             currency: "BRL",
           });
-
-          console.log(categorySum);
-          console.log(expensivesTotal);
 
           const percent = `${((categorySum / expensivesTotal) * 100).toFixed(
             0

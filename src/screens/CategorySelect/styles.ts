@@ -2,6 +2,7 @@ import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
 
 import { RFValue } from "react-native-responsive-fontsize";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 interface ICategoryProps {
   isActive: boolean;
@@ -12,7 +13,7 @@ export const Container = styled.View`
   flex: 1;
 `;
 
-export const Header = styled.View`
+export const Header = styled(GestureHandlerRootView)`
   align-items: center;
   background-color: ${({ theme }) => theme.colors.primary};
   height: ${RFValue(113)}px;

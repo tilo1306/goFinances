@@ -48,5 +48,5 @@ export const FooterWrapper = styled.View`
 `;
 
 export const Load = styled(Loading)`
-  background-color: ${({ theme }) => theme.colors.secondary};
+  background-color: transparent;
 `;

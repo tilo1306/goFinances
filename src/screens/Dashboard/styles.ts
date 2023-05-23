@@ -4,9 +4,8 @@ import {
   getBottomSpace,
   getStatusBarHeight,
 } from "react-native-iphone-x-helper";
-import { BorderlessButton } from "react-native-gesture-handler";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { FlatList, FlatListProps } from "react-native";
+import { FlatList, FlatListProps, TouchableOpacity } from "react-native";
 import { ITransaction } from "src/type";
 
 export const Container = styled.View`
@@ -40,7 +39,7 @@ export const UserInfo = styled.View`
 
 export const Photo = styled.Image`
   width: ${RFValue(48)}px;
-  width: ${RFValue(48)}px;
+  height: ${RFValue(48)}px;
 
   border-radius: 10px;
 `;
@@ -63,7 +62,7 @@ export const Username = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
-export const LogoutButton = styled(BorderlessButton)``;
+export const LogoutButton = styled(TouchableOpacity)``;
 
 export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.secondary};

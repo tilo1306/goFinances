@@ -96,7 +96,9 @@ export function getLastTransactionDate(
     (maxDate, transaction) => {
       if (transaction.date) {
         const [day, month, year] = transaction.date.split("/");
-        const timestamp = new Date(`20${year}-${month}-${day}`).getTime();
+        const timestamp = new Date(
+          `20${year}-${month}-${Number(day) + 1}`
+        ).getTime();
         return isNaN(timestamp) ? maxDate : Math.max(maxDate, timestamp);
       }
       return maxDate;
@@ -104,8 +106,9 @@ export function getLastTransactionDate(
     0 as number
   );
 
-  const dateTransaction =
-    filterLastTransaction === 0 ? undefined : new Date(filterLastTransaction);
+  const dateTransaction = filterLastTransaction
+    ? new Date(filterLastTransaction)
+    : new Date();
 
   return `${dateTransaction?.getDate()} de ${dateTransaction?.toLocaleString(
     "pt-BR",

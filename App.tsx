@@ -1,9 +1,11 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from "react";
+import "react-native-gesture-handler";
 import theme from "@global/styles/theme";
 import "intl";
 import "intl/locale-data/jsonp/pt-BR";
 
-import { AuthProvider, useAuth } from "./src/hooks/auth";
+import { AuthProvider } from "./src/hooks/auth";
 
 import {
   useFonts,
@@ -16,6 +18,7 @@ import { ThemeProvider } from "styled-components/native";
 import { Loading } from "@components/Loading";
 import { Routes } from "./src/routes";
 import { StatusBar } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,13 +27,12 @@ export default function App() {
     Poppins_700Bold,
   });
 
-  const { userStorageLoading } = useAuth();
   return (
-    <ThemeProvider theme={theme}>
-      <StatusBar barStyle="light-content" translucent />
-      <AuthProvider>
-        {!fontsLoaded && userStorageLoading ? <Loading /> : <Routes />}
-      </AuthProvider>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <StatusBar barStyle="light-content" />
+        <AuthProvider>{!fontsLoaded ? <Loading /> : <Routes />}</AuthProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }

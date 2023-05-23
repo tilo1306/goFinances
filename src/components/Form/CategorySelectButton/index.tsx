@@ -1,20 +1,16 @@
 import React from "react";
 import { Container, Category, Icon } from "./styles";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { TouchableOpacityProps } from "react-native";
 
-interface IProps {
+type Props = TouchableOpacityProps & {
   title: String;
-  onPress: () => void;
-}
+};
 
-export function CategorySelectButton({ title, onPress }: IProps) {
+export function CategorySelectButton({ title, ...rest }: Props) {
   return (
-    <GestureHandlerRootView>
-      <Container onPress={onPress}>
-        <Category>{title}</Category>
-
-        <Icon name="chevron-down" />
-      </Container>
-    </GestureHandlerRootView>
+    <Container {...rest}>
+      <Category>{title}</Category>
+      <Icon name="chevron-down" />
+    </Container>
   );
 }
